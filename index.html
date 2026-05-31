@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Ankita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+    <div class="music-hint" id="musicHint" hidden>
+      Tap anywhere for the music to begin
+    </div>
+
+    <section class="intro-screen" id="introScreen" aria-label="Opening animation">
+      <div class="intro-veil"></div>
+      <div class="intro-particles" id="introParticles"></div>
+      <div class="intro-content">
+        <div class="heart-shell" id="heartShell">
+          <div class="glow-heart"></div>
+        </div>
+        <p class="intro-kicker" id="introKicker">Hey Ankita...</p>
+        <h1 class="intro-title" id="introTitle">
+          Someone wants to tell you something <span>❤</span>
+        </h1>
+      </div>
+    </section>
+
+    <main class="page-shell hidden" id="pageShell">
+      <div class="sky-gradient"></div>
+      <div class="halo halo-left"></div>
+      <div class="halo halo-right"></div>
+      <div class="stars" id="stars"></div>
+      <div class="floating-hearts" id="floatingHearts"></div>
+      <div class="petals" id="petals"></div>
+
+      <section class="hero">
+        <p class="eyebrow">A little confession from the heart</p>
+        <h2>Some stories feel written by destiny long before they begin.</h2>
+
+        <div class="proposal-card" id="proposalCard">
+          <div class="card-light"></div>
+          <p class="typing-line" id="typingLine"></p>
+
+          <div class="message-block">
+            <p class="main-message">
+              If you still haven’t committed to someone yet, then stop searching...
+            </p>
+            <p class="main-message accent">because you’re mine now. ❤</p>
+          </div>
+
+          <div class="button-row">
+            <button class="choice-btn yes-btn" id="yesBtn" type="button">
+              ❤ Yes
+            </button>
+            <button class="choice-btn maybe-btn" id="maybeBtn" type="button">
+              🙈 Think Again
+            </button>
+          </div>
+
+          <p class="escape-note" id="escapeNote" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="gallery-section" id="gallerySection">
+        <div class="section-heading">
+          <p class="eyebrow">Memory lane</p>
+          <h3>Little moments that deserve a forever frame.</h3>
+        </div>
+
+        <div class="memory-slider" id="memorySlider">
+          <article class="memory-slide active">
+            <div
+              class="slide-art slide-one"
+            ></div>
+            <div class="slide-copy">
+              <span>01</span>
+              <p>Even the whole city faded away when all I could see was you.</p>
+            </div>
+          </article>
+
+          <article class="memory-slide">
+            <div class="slide-art slide-two"></div>
+            <div class="slide-copy">
+              <span>02</span>
+              <p>Every road felt softer and every step felt right when you walked beside me.</p>
+            </div>
+          </article>
+
+          <article class="memory-slide">
+            <div class="slide-art slide-three"></div>
+            <div class="slide-copy">
+              <span>03</span>
+              <p>Some moments stay forever, and this one will always feel like home to my heart.</p>
+            </div>
+          </article>
+           <article class="memory-slide">
+            <div class="slide-art slide-four"></div>
+            <div class="slide-copy">
+              <span>04</span>
+              <p>And this… will be the final destination of the very first chapter of our story.
+Where two souls stop walking separately and start becoming one forever.
+And after that, countless chapters of us will continue to be written… together.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="final-line">
+        <p>Maybe destiny already decided this story long ago... ❤</p>
+        <div class="beating-heart" aria-hidden="true"></div>
+      </footer>
+    </main>
+
+    <section class="celebration-overlay hidden" id="celebrationOverlay" aria-live="polite">
+      <div class="celebration-content">
+        <p class="celebration-tag">Heart status updated</p>
+        <h2>Officially Mine ❤</h2>
+        <p>
+          And just like that, this little love story becomes our favorite beginning.
+        </p>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
