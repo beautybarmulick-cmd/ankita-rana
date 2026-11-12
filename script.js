@@ -16,6 +16,7 @@ const escapeNote = document.getElementById("escapeNote");
 const celebrationOverlay = document.getElementById("celebrationOverlay");
 const gallerySection = document.getElementById("gallerySection");
 const musicHint = document.getElementById("musicHint");
+const backgroundMusic = document.getElementById("backgroundMusic");
 const memorySlides = [...document.querySelectorAll(".memory-slide")];
 const fxCanvas = document.getElementById("fx-canvas");
 
@@ -47,7 +48,6 @@ class RomanticAudio {
   constructor() {
     this.context = null;
     this.master = null;
-    this.padTimer = null;
     this.isStarted = false;
     this.isCelebration = false;
   }
@@ -71,7 +71,6 @@ class RomanticAudio {
     this.master.gain.value = 0.035;
     this.master.connect(this.context.destination);
     this.isStarted = true;
-    this.playPadLoop();
     return this.context.state === "running";
   }
 
@@ -108,43 +107,6 @@ class RomanticAudio {
 
     oscillator.start(start);
     oscillator.stop(start + duration + 0.05);
-  }
-
-  playPadLoop() {
-    if (!this.context) {
-      return;
-    }
-
-    const chords = [
-      [261.63, 329.63, 392.0],
-      [220.0, 293.66, 369.99],
-      [246.94, 311.13, 392.0],
-      [196.0, 293.66, 392.0],
-    ];
-
-    let chordIndex = 0;
-
-    const schedule = () => {
-      if (!this.context) {
-        return;
-      }
-
-      const start = this.context.currentTime + 0.05;
-      const chord = chords[chordIndex % chords.length];
-      chord.forEach((note, index) => {
-        this.playTone(
-          note,
-          start + index * 0.06,
-          3.2,
-          "triangle",
-          this.isCelebration ? 0.055 : 0.04,
-        );
-      });
-      chordIndex += 1;
-    };
-
-    schedule();
-    this.padTimer = window.setInterval(schedule, 3000);
   }
 
   playHeartbeat() {
@@ -624,22 +586,49 @@ function celebrateYes() {
   }, 5200);
 }
 
-async function setupAudio() {
-  const running = await audio.ensure();
+function setupAudio() {
+  const fallbackEvents = ["click", "keydown", "touchstart"];
+  let playbackPending = false;
 
-  if (!running) {
+  const unlockSoundEffects = () => {
+    fallbackEvents.forEach((eventName) => {
+      document.removeEventListener(eventName, unlockSoundEffects);
+    });
+    audio.ensure();
+  };
+
+  const removeFallbackListeners = () => {
+    fallbackEvents.forEach((eventName) => {
+      document.removeEventListener(eventName, startPlayback);
+    });
+  };
+
+  const startPlayback = () => {
+    if (playbackPending || !backgroundMusic.paused) {
+      return;
+    }
+
+    playbackPending = true;
+    backgroundMusic.play().then(() => {
+      musicHint.hidden = true;
+      removeFallbackListeners();
+    }).catch(() => {
+      playbackPending = false;
+    });
+  };
+
+  backgroundMusic.play().then(() => {
+    musicHint.hidden = true;
+  }).catch(() => {
     musicHint.hidden = false;
+    fallbackEvents.forEach((eventName) => {
+      document.addEventListener(eventName, startPlayback);
+    });
+  });
 
-    const unlock = async () => {
-      const unlocked = await audio.ensure();
-      if (unlocked) {
-        musicHint.hidden = true;
-        document.removeEventListener("pointerdown", unlock);
-      }
-    };
-
-    document.addEventListener("pointerdown", unlock);
-  }
+  fallbackEvents.forEach((eventName) => {
+    document.addEventListener(eventName, unlockSoundEffects);
+  });
 }
 
 function startOpeningSequence() {
@@ -735,5 +724,5 @@ window.addEventListener("beforeunload", () => {
   stopMaybeEscapeLoop();
 });
 
-setupAudio();
+document.addEventListener("DOMContentLoaded", setupAudio, { once: true });
 startOpeningSequence();
